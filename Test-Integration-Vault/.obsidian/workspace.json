@@ -1,0 +1,30 @@
+{
+  "main": {
+    "id": "compensation-research",
+    "type": "split",
+    "children": [
+      {
+        "id": "graph-view",
+        "type": "leaf",
+        "state": {
+          "type": "graph",
+          "state": {}
+        }
+      }
+    ]
+  },
+  "left": {
+    "id": "file-explorer",
+    "type": "split",
+    "children": [
+      {
+        "id": "file-tree",
+        "type": "leaf",
+        "state": {
+          "type": "file-explorer",
+          "state": {}
+        }
+      }
+    ]
+  }
+}
