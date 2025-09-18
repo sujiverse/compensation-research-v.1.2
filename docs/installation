@@ -1,0 +1,258 @@
+# 🚀 Installation Guide
+
+> **Get the 5WHY Compensation Research System running in 5 minutes**
+
+## 📋 Prerequisites
+
+### **System Requirements**
+- **Python**: 3.11 or higher
+- **Git**: For repository management
+- **GitHub Account**: For automated deployment
+- **4GB RAM**: Minimum for processing
+- **10GB Storage**: For research vault and cache
+
+### **Optional Requirements**
+- **Docker**: For containerized deployment
+- **Redis**: For advanced caching (optional)
+- **PostgreSQL**: For data persistence (optional)
+
+## ⚡ Quick Install (Recommended)
+
+### **1. Clone Repository**
+```bash
+git clone https://github.com/your-username/compensation-research.git
+cd compensation-research
+```
+
+### **2. Run Auto-Setup**
+```bash
+# Make deploy script executable
+chmod +x deploy.sh
+
+# Run complete setup
+./deploy.sh
+```
+
+### **3. Verify Installation**
+```bash
+# Test system components
+python test_integration.py
+
+# Check health status
+python scripts/health_check.py
+```
+
+## 🔧 Manual Installation
+
+### **Step 1: Environment Setup**
+```bash
+# Create virtual environment
+python -m venv compensation_env
+source compensation_env/bin/activate  # Linux/Mac
+# compensation_env\Scripts\activate   # Windows
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### **Step 2: Configuration**
+```bash
+# Copy environment template
+cp .env.example .env
+
+# Edit configuration (required)
+nano .env
+```
+
+**Essential Configuration:**
+```bash
+# Basic Settings
+ENVIRONMENT=production
+VAULT_PATH=Compensation-Research-Vault
+
+# Research Settings (optional)
+RESEARCH_CYCLE_INTERVAL=600  # 10 minutes
+MAX_PAPERS_PER_CYCLE=5
+
+# Notifications (optional)
+SLACK_WEBHOOK=your_slack_webhook_url
+```
+
+### **Step 3: Initialize System**
+```bash
+# Create directory structure
+mkdir -p logs cache backups
+
+# Initialize Obsidian vault
+python obsidian_generator.py
+
+# Test paper screening
+python paper_screener.py
+```
+
+### **Step 4: Run System**
+```bash
+# Single research cycle
+python compensation_research_system.py --single
+
+# Continuous automation
+python compensation_research_system.py
+```
+
+## 🐳 Docker Installation
+
+### **Using Docker Compose (Recommended)**
+```bash
+# Clone repository
+git clone https://github.com/your-username/compensation-research.git
+cd compensation-research
+
+# Start all services
+docker-compose up -d
+
+# Check status
+docker-compose ps
+```
+
+### **Single Container Deployment**
+```bash
+# Build image
+docker build -t compensation-research .
+
+# Run container
+docker run -d \
+  --name compensation-research \
+  -v $(pwd)/Compensation-Research-Vault:/app/Compensation-Research-Vault \
+  -v $(pwd)/logs:/app/logs \
+  compensation-research
+```
+
+## ☁️ GitHub Actions Deployment
+
+### **1. Repository Setup**
+```bash
+# Create GitHub repository
+gh repo create compensation-research --public
+
+# Push code
+git add .
+git commit -m "🔬 Initial compensation research system"
+git push -u origin main
+```
+
+### **2. Configure GitHub Actions**
+1. Go to **Repository Settings** → **Actions** → **General**
+2. Set **Workflow permissions** to "Read and write permissions"
+3. Enable **"Allow GitHub Actions to create and approve pull requests"**
+
+### **3. Optional: Add Secrets**
+Go to **Repository Settings** → **Secrets and variables** → **Actions**
+
+Add these secrets (all optional):
+```
+SLACK_WEBHOOK          # For Slack notifications
+DISCORD_WEBHOOK        # For Discord notifications
+OPENAI_API_KEY         # For enhanced analysis
+AWS_ACCESS_KEY_ID      # For S3 backup
+AWS_SECRET_ACCESS_KEY  # For S3 backup
+```
+
+### **4. Start Automation**
+- **Automatic**: System starts running every 10 minutes automatically
+- **Manual**: Actions tab → "Run workflow" button
+
+## 🔍 Verification
+
+### **Health Check**
+```bash
+# System health status
+python scripts/health_check.py
+
+# Expected output:
+# Health Check Summary
+# Overall Status: HEALTHY
+# Timestamp: 2024-09-18T08:00:00
+```
+
+### **Test Research Cycle**
+```bash
+# Run single research cycle
+python compensation_research_system.py --single
+
+# Check generated vault
+ls -la Compensation-Research-Vault/
+```
+
+### **Monitor Logs**
+```bash
+# View real-time logs
+tail -f logs/compensation_research.log
+
+# Check health logs
+cat logs/health_latest.json
+```
+
+## 🚨 Troubleshooting
+
+### **Common Issues**
+
+#### **Import Errors**
+```bash
+# Problem: ModuleNotFoundError
+# Solution: Reinstall dependencies
+pip install -r requirements.txt --force-reinstall
+```
+
+#### **Permission Errors**
+```bash
+# Problem: Permission denied
+# Solution: Fix permissions
+chmod +x deploy.sh
+chmod -R 755 scripts/
+```
+
+#### **GitHub Actions Not Running**
+1. Check workflow file syntax: `.github/workflows/ci-cd-pipeline.yml`
+2. Verify file is on main branch
+3. Check Actions permissions in repository settings
+
+#### **No Papers Found**
+```bash
+# Problem: Paper screening returns 0 results
+# Solution: Check internet connection and API access
+curl -s "https://api.openalex.org/works?search=compensation" | head
+```
+
+### **Getting Help**
+
+#### **Debug Mode**
+```bash
+# Enable detailed logging
+export LOG_LEVEL=DEBUG
+python compensation_research_system.py --single
+```
+
+#### **Support Channels**
+- **GitHub Issues**: Technical problems and bugs
+- **GitHub Discussions**: General questions and feature requests
+- **Documentation**: Check relevant sections in `/docs`
+
+## 🎯 Next Steps
+
+After successful installation:
+
+1. **[User Guide](user-guide/README.md)**: Learn how to use the system
+2. **[Configuration](config/README.md)**: Customize for your needs
+3. **[API Reference](api/README.md)**: Integrate with other tools
+4. **[Examples](examples/README.md)**: See real-world usage patterns
+
+---
+
+**⚡ Quick Start Summary:**
+```bash
+git clone <repo>
+./deploy.sh
+python test_integration.py
+```
+
+**🤖 System will start automatically collecting and analyzing compensation research papers every 10 minutes!**
