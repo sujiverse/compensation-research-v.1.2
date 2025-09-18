@@ -1,0 +1,369 @@
+name: 'Research Notification System'
+description: 'Comprehensive notification system for compensation research automation'
+branding:
+  icon: 'bell'
+  color: 'blue'
+
+inputs:
+  status:
+    description: 'Job execution status'
+    required: true
+  papers_processed:
+    description: 'Number of papers processed'
+    required: false
+    default: '0'
+  patterns_discovered:
+    description: 'Number of new patterns discovered'
+    required: false
+    default: '0'
+  vault_size:
+    description: 'Current vault size'
+    required: false
+    default: 'Unknown'
+  commit_hash:
+    description: 'Git commit hash'
+    required: false
+    default: 'N/A'
+  slack_webhook:
+    description: 'Slack webhook URL'
+    required: false
+  discord_webhook:
+    description: 'Discord webhook URL'
+    required: false
+  email_recipients:
+    description: 'Email recipients (comma-separated)'
+    required: false
+  teams_webhook:
+    description: 'Microsoft Teams webhook URL'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Generate Notification Content
+      shell: bash
+      run: |
+        # Create notification content based on status
+        STATUS_EMOJI="🔬"
+        STATUS_COLOR="good"
+
+        case "${{ inputs.status }}" in
+          "success")
+            STATUS_EMOJI="✅"
+            STATUS_COLOR="good"
+            TITLE="Research Cycle Completed Successfully"
+            ;;
+          "failure")
+            STATUS_EMOJI="❌"
+            STATUS_COLOR="danger"
+            TITLE="Research Cycle Failed"
+            ;;
+          "cancelled")
+            STATUS_EMOJI="⚠️"
+            STATUS_COLOR="warning"
+            TITLE="Research Cycle Cancelled"
+            ;;
+          *)
+            STATUS_EMOJI="🔬"
+            STATUS_COLOR="warning"
+            TITLE="Research Cycle Status Update"
+            ;;
+        esac
+
+        # Generate timestamp
+        TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M:%S UTC')
+
+        # Create summary
+        cat > notification_summary.txt << EOF
+        ${STATUS_EMOJI} ${TITLE}
+
+        📊 Research Summary:
+        • Papers Processed: ${{ inputs.papers_processed }}
+        • New Patterns: ${{ inputs.patterns_discovered }}
+        • Vault Size: ${{ inputs.vault_size }}
+        • Commit: ${{ inputs.commit_hash }}
+        • Time: ${TIMESTAMP}
+
+        🔗 View Details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        EOF
+
+        echo "STATUS_EMOJI=${STATUS_EMOJI}" >> $GITHUB_ENV
+        echo "STATUS_COLOR=${STATUS_COLOR}" >> $GITHUB_ENV
+        echo "TITLE=${TITLE}" >> $GITHUB_ENV
+        echo "TIMESTAMP=${TIMESTAMP}" >> $GITHUB_ENV
+
+    - name: Send Slack Notification
+      if: inputs.slack_webhook != ''
+      shell: bash
+      run: |
+        curl -X POST -H 'Content-type: application/json' \
+        --data '{
+          "attachments": [
+            {
+              "color": "${{ env.STATUS_COLOR }}",
+              "title": "${{ env.TITLE }}",
+              "fields": [
+                {
+                  "title": "Papers Processed",
+                  "value": "${{ inputs.papers_processed }}",
+                  "short": true
+                },
+                {
+                  "title": "New Patterns",
+                  "value": "${{ inputs.patterns_discovered }}",
+                  "short": true
+                },
+                {
+                  "title": "Vault Size",
+                  "value": "${{ inputs.vault_size }}",
+                  "short": true
+                },
+                {
+                  "title": "Repository",
+                  "value": "<https://github.com/${{ github.repository }}|${{ github.repository }}>",
+                  "short": true
+                }
+              ],
+              "footer": "Compensation Research Bot",
+              "ts": '${{ github.event.head_commit.timestamp }}'
+            }
+          ]
+        }' \
+        ${{ inputs.slack_webhook }}
+
+    - name: Send Discord Notification
+      if: inputs.discord_webhook != ''
+      shell: bash
+      run: |
+        curl -X POST -H 'Content-type: application/json' \
+        --data '{
+          "embeds": [
+            {
+              "title": "${{ env.TITLE }}",
+              "description": "Automated compensation research cycle update",
+              "color": '${{ inputs.status == 'success' && '65280' || '16711680' }}',
+              "fields": [
+                {
+                  "name": "📊 Papers Processed",
+                  "value": "${{ inputs.papers_processed }}",
+                  "inline": true
+                },
+                {
+                  "name": "🔍 New Patterns",
+                  "value": "${{ inputs.patterns_discovered }}",
+                  "inline": true
+                },
+                {
+                  "name": "📁 Vault Size",
+                  "value": "${{ inputs.vault_size }}",
+                  "inline": true
+                },
+                {
+                  "name": "🔗 Repository",
+                  "value": "[View on GitHub](https://github.com/${{ github.repository }})",
+                  "inline": false
+                }
+              ],
+              "footer": {
+                "text": "Compensation Research Bot • ${{ env.TIMESTAMP }}"
+              },
+              "thumbnail": {
+                "url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+              }
+            }
+          ]
+        }' \
+        ${{ inputs.discord_webhook }}
+
+    - name: Send Teams Notification
+      if: inputs.teams_webhook != ''
+      shell: bash
+      run: |
+        curl -X POST -H 'Content-type: application/json' \
+        --data '{
+          "@type": "MessageCard",
+          "@context": "http://schema.org/extensions",
+          "themeColor": "${{ inputs.status == 'success' && '00FF00' || 'FF0000' }}",
+          "summary": "${{ env.TITLE }}",
+          "sections": [
+            {
+              "activityTitle": "${{ env.TITLE }}",
+              "activitySubtitle": "Compensation Research Automation",
+              "activityImage": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+              "facts": [
+                {
+                  "name": "Papers Processed:",
+                  "value": "${{ inputs.papers_processed }}"
+                },
+                {
+                  "name": "New Patterns:",
+                  "value": "${{ inputs.patterns_discovered }}"
+                },
+                {
+                  "name": "Vault Size:",
+                  "value": "${{ inputs.vault_size }}"
+                },
+                {
+                  "name": "Status:",
+                  "value": "${{ inputs.status }}"
+                }
+              ],
+              "markdown": true
+            }
+          ],
+          "potentialAction": [
+            {
+              "@type": "OpenUri",
+              "name": "View on GitHub",
+              "targets": [
+                {
+                  "os": "default",
+                  "uri": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                }
+              ]
+            }
+          ]
+        }' \
+        ${{ inputs.teams_webhook }}
+
+    - name: Send Email Notification
+      if: inputs.email_recipients != ''
+      shell: bash
+      run: |
+        # Create email content
+        cat > email_content.html << EOF
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; }
+                .header { background-color: #f8f9fa; padding: 20px; border-radius: 5px; }
+                .content { padding: 20px; }
+                .status-success { color: #28a745; }
+                .status-failure { color: #dc3545; }
+                .metrics { background-color: #e9ecef; padding: 15px; border-radius: 5px; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h2 class="status-${{ inputs.status }}">${{ env.TITLE }}</h2>
+                <p>Compensation Research Automation Update</p>
+            </div>
+            <div class="content">
+                <div class="metrics">
+                    <h3>📊 Research Metrics</h3>
+                    <ul>
+                        <li><strong>Papers Processed:</strong> ${{ inputs.papers_processed }}</li>
+                        <li><strong>New Patterns Discovered:</strong> ${{ inputs.patterns_discovered }}</li>
+                        <li><strong>Vault Size:</strong> ${{ inputs.vault_size }}</li>
+                        <li><strong>Execution Time:</strong> ${{ env.TIMESTAMP }}</li>
+                    </ul>
+                </div>
+                <p><a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">View detailed logs on GitHub</a></p>
+            </div>
+        </body>
+        </html>
+        EOF
+
+        # Send email using Python (requires SMTP configuration)
+        python3 << EOF
+        import smtplib
+        from email.mime.text import MIMEText
+        from email.mime.multipart import MIMEMultipart
+
+        # Read email content
+        with open('email_content.html', 'r') as f:
+            html_content = f.read()
+
+        # Email configuration (should be in environment variables)
+        smtp_server = "${{ env.SMTP_SERVER }}"
+        smtp_port = int("${{ env.SMTP_PORT }}" or "587")
+        smtp_user = "${{ env.SMTP_USER }}"
+        smtp_pass = "${{ env.SMTP_PASS }}"
+
+        if smtp_server and smtp_user and smtp_pass:
+            msg = MIMEMultipart('alternative')
+            msg['Subject'] = "${{ env.TITLE }}"
+            msg['From'] = smtp_user
+            msg['To'] = "${{ inputs.email_recipients }}"
+
+            html_part = MIMEText(html_content, 'html')
+            msg.attach(html_part)
+
+            try:
+                server = smtplib.SMTP(smtp_server, smtp_port)
+                server.starttls()
+                server.login(smtp_user, smtp_pass)
+                server.send_message(msg)
+                server.quit()
+                print("Email notification sent successfully")
+            except Exception as e:
+                print(f"Failed to send email: {e}")
+        else:
+            print("Email configuration not complete, skipping email notification")
+        EOF
+
+    - name: Create GitHub Issue on Failure
+      if: inputs.status == 'failure'
+      shell: bash
+      run: |
+        # Create issue body
+        cat > issue_body.md << EOF
+        ## 🚨 Research Cycle Failure Alert
+
+        **Failure Time:** ${{ env.TIMESTAMP }}
+        **Run ID:** ${{ github.run_id }}
+        **Commit:** ${{ inputs.commit_hash }}
+
+        ### 📊 Cycle Metrics
+        - Papers Processed: ${{ inputs.papers_processed }}
+        - Patterns Discovered: ${{ inputs.patterns_discovered }}
+        - Vault Size: ${{ inputs.vault_size }}
+
+        ### 🔗 Links
+        - [Failed Workflow Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+        - [Repository](https://github.com/${{ github.repository }})
+
+        ### 🛠️ Next Steps
+        1. Review the workflow logs
+        2. Check for API rate limits
+        3. Verify system dependencies
+        4. Monitor for recurring failures
+
+        ---
+        *This issue was automatically created by the Research Notification System*
+        EOF
+
+        # Create issue using GitHub CLI
+        if command -v gh &> /dev/null; then
+          gh issue create \
+            --title "🚨 Research Cycle Failure - $(date '+%Y-%m-%d %H:%M')" \
+            --body-file issue_body.md \
+            --label "bug,automation,research-failure" \
+            --assignee "@me"
+        fi
+
+    - name: Update Status Badge
+      shell: bash
+      run: |
+        # Create status badge data
+        STATUS_TEXT="${{ inputs.status }}"
+        STATUS_COLOR="${{ env.STATUS_COLOR }}"
+
+        case "${{ inputs.status }}" in
+          "success")
+            BADGE_COLOR="brightgreen"
+            ;;
+          "failure")
+            BADGE_COLOR="red"
+            ;;
+          *)
+            BADGE_COLOR="yellow"
+            ;;
+        esac
+
+        # Create badge URL
+        BADGE_URL="https://img.shields.io/badge/research-${STATUS_TEXT}-${BADGE_COLOR}?style=flat-square&logo=github"
+
+        echo "Badge URL: ${BADGE_URL}"
+        echo "BADGE_URL=${BADGE_URL}" >> $GITHUB_ENV
