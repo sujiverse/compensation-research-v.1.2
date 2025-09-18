@@ -51,8 +51,9 @@ jobs:
         fi
 
     - name: Upload Obsidian vault as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: compensation-vault-$(date +%Y%m%d-%H%M)
         path: Compensation-Research-Vault/
         retention-days: 30
+        include-hidden-files: true

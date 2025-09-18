@@ -93,7 +93,7 @@ jobs:
         fail_ci_if_error: false
 
     - name: 📋 Upload Test Reports
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: quality-reports
@@ -103,6 +103,7 @@ jobs:
           flake8-report.txt
           test-report.html
           htmlcov/
+        include-hidden-files: true
 
   # =================== INTEGRATION TESTS ===================
   integration-tests:
@@ -143,7 +144,7 @@ jobs:
         python -m pytest tests/integration/test_${{ matrix.test-suite }}.py -v --tb=short
 
     - name: 📊 Upload Test Results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: integration-test-results-${{ matrix.test-suite }}
@@ -246,7 +247,7 @@ jobs:
         zip -r "vault-obsidian-$(date +%Y%m%d-%H%M).zip" Compensation-Research-Vault/
 
     - name: 📤 Upload Vault Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: steps.commit.outputs.changes == 'true'
       with:
         name: compensation-vault-${{ github.run_number }}
@@ -255,6 +256,7 @@ jobs:
           vault-obsidian-*.zip
           research_metrics.json
         retention-days: 90
+        include-hidden-files: true
 
     - name: 🚀 Deploy to Research Portal
       id: deploy
