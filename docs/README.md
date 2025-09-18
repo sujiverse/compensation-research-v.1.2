@@ -15,7 +15,11 @@
 - **[Architecture Overview](architecture/system-overview.md)** - High-level system design
 - **[Component Diagram](architecture/components.md)** - Detailed component relationships
 - **[Data Flow](architecture/data-flow.md)** - How data moves through the system
+<<<<<<< HEAD
 - **[5WHY Methodology](research/5why-framework.md)** - Core analysis framework
+=======
+- **[5WHY Methodology](architecture/5why-methodology.md)** - Core analysis framework
+>>>>>>> e83d6554e42833127a6d73b7a573159837cd255a
 
 ### 🔧 **Developer Guides**
 - **[Development Setup](developer/setup.md)** - Local development environment
