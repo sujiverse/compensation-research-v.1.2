@@ -225,8 +225,8 @@ jobs:
 
     - name: 🔄 Git Configuration
       run: |
-        git config --local user.email "research-bot@compensation.ai"
-        git config --local user.name "Compensation Research Bot"
+        git config --local user.name "github-actions[bot]"
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
     - name: 💾 Commit Research Updates
       id: commit
@@ -240,11 +240,11 @@ jobs:
           - New Patterns: ${{ steps.research.outputs.patterns_discovered }}
           - Vault Size: ${{ steps.research.outputs.vault_size }}
 
-          🤖 Automated via GitHub Actions
+          🤖 Automated via GitHub Actions [skip ci]
           Co-Authored-By: Claude <noreply@anthropic.com>"
 
-          git pull --rebase origin main || true
-          git push origin HEAD:main
+          git pull --rebase origin "${{ github.ref_name }}" || true
+          git push origin HEAD:"${{ github.ref_name }}"
           echo "changes=true" >> $GITHUB_OUTPUT
           echo "commit_hash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
         else
