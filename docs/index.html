@@ -193,104 +193,181 @@
       margin-left: 0.5rem;
     }
     .knowledge-graph {
-      background: #f8f9fa;
-      border: 1px solid #a2a9b1;
-      padding: 1rem;
+      background: linear-gradient(135deg, #1e1e1e 0%, #2d2d30 100%);
+      border: 1px solid #404040;
+      padding: 1.5rem;
       margin: 2rem 0;
-      border-radius: 3px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
     .knowledge-graph h3 {
       margin: 0 0 1rem 0;
-      color: #333;
+      color: #e0e0e0;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
     }
     .graph-container {
       width: 100%;
-      height: 400px;
+      height: 500px;
       position: relative;
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 3px;
+      background: radial-gradient(circle at center, #2a2a2a 0%, #1a1a1a 100%);
+      border: 1px solid #404040;
+      border-radius: 8px;
       overflow: hidden;
+      position: relative;
+    }
+    .graph-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(100, 200, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255, 100, 150, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(150, 255, 100, 0.05) 0%, transparent 70%);
+      pointer-events: none;
     }
     .node {
       position: absolute;
-      background: #36c;
+      background: radial-gradient(circle, #4a9eff 0%, #2563eb 100%);
       color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       text-align: center;
-      min-width: 80px;
-      border: 2px solid #36c;
-    }
-    .node:hover {
-      background: #0645ad;
-      border-color: #0645ad;
-      transform: scale(1.1);
+      min-width: 90px;
+      border: 2px solid rgba(255,255,255,0.2);
+      box-shadow:
+        0 0 20px rgba(74, 158, 255, 0.4),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
       z-index: 10;
     }
+    .node:hover {
+      transform: scale(1.15);
+      box-shadow:
+        0 0 30px rgba(74, 158, 255, 0.8),
+        0 0 60px rgba(74, 158, 255, 0.4),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+      z-index: 100;
+    }
     .node.center {
-      background: #e74c3c;
-      border-color: #e74c3c;
-      font-size: 0.9rem;
-      padding: 0.7rem 1.2rem;
+      background: radial-gradient(circle, #ff6b6b 0%, #ee5a52 100%);
+      font-size: 0.85rem;
+      padding: 0.8rem 1.5rem;
       font-weight: 700;
+      min-width: 120px;
+      box-shadow:
+        0 0 25px rgba(255, 107, 107, 0.5),
+        inset 0 1px 0 rgba(255,255,255,0.2);
     }
     .node.center:hover {
-      background: #c0392b;
-      border-color: #c0392b;
+      box-shadow:
+        0 0 40px rgba(255, 107, 107, 0.9),
+        0 0 80px rgba(255, 107, 107, 0.5),
+        inset 0 1px 0 rgba(255,255,255,0.3);
     }
     .node.anatomy {
-      background: #27ae60;
-      border-color: #27ae60;
+      background: radial-gradient(circle, #51cf66 0%, #37b24d 100%);
+      box-shadow:
+        0 0 20px rgba(81, 207, 102, 0.4),
+        inset 0 1px 0 rgba(255,255,255,0.2);
     }
     .node.anatomy:hover {
-      background: #219a52;
-      border-color: #219a52;
+      box-shadow:
+        0 0 30px rgba(81, 207, 102, 0.8),
+        0 0 60px rgba(81, 207, 102, 0.4),
+        inset 0 1px 0 rgba(255,255,255,0.3);
     }
     .node.pattern {
-      background: #f39c12;
-      border-color: #f39c12;
+      background: radial-gradient(circle, #ffd43b 0%, #fab005 100%);
+      box-shadow:
+        0 0 20px rgba(255, 212, 59, 0.4),
+        inset 0 1px 0 rgba(255,255,255,0.2);
     }
     .node.pattern:hover {
-      background: #e67e22;
-      border-color: #e67e22;
+      box-shadow:
+        0 0 30px rgba(255, 212, 59, 0.8),
+        0 0 60px rgba(255, 212, 59, 0.4),
+        inset 0 1px 0 rgba(255,255,255,0.3);
     }
     .node.treatment {
-      background: #9b59b6;
-      border-color: #9b59b6;
+      background: radial-gradient(circle, #da77f2 0%, #ae3ec9 100%);
+      box-shadow:
+        0 0 20px rgba(218, 119, 242, 0.4),
+        inset 0 1px 0 rgba(255,255,255,0.2);
     }
     .node.treatment:hover {
-      background: #8e44ad;
-      border-color: #8e44ad;
+      box-shadow:
+        0 0 30px rgba(218, 119, 242, 0.8),
+        0 0 60px rgba(218, 119, 242, 0.4),
+        inset 0 1px 0 rgba(255,255,255,0.3);
     }
     .connection {
       position: absolute;
-      background: #bbb;
-      height: 2px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 100%);
+      height: 1px;
       transform-origin: left center;
       pointer-events: none;
       z-index: 1;
+      box-shadow: 0 0 2px rgba(255,255,255,0.3);
+      filter: blur(0.5px);
+    }
+    .connection.active {
+      background: linear-gradient(90deg, rgba(74, 158, 255, 0.3) 0%, rgba(74, 158, 255, 0.8) 50%, rgba(74, 158, 255, 0.3) 100%);
+      height: 2px;
+      box-shadow: 0 0 8px rgba(74, 158, 255, 0.6);
+      filter: blur(0px);
     }
     .graph-legend {
-      margin-top: 1rem;
+      margin-top: 1.5rem;
       font-size: 0.8rem;
       display: flex;
-      gap: 1rem;
+      gap: 1.5rem;
       flex-wrap: wrap;
+      justify-content: center;
     }
     .legend-item {
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      color: #e0e0e0;
+      background: rgba(255,255,255,0.05);
+      padding: 0.4rem 0.8rem;
+      border-radius: 15px;
+      border: 1px solid rgba(255,255,255,0.1);
     }
     .legend-color {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
+      box-shadow: 0 0 8px currentColor;
+    }
+    .graph-controls {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .obsidian-button {
+      background: linear-gradient(135deg, #4a9eff 0%, #2563eb 100%);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(74, 158, 255, 0.3);
+      font-size: 0.9rem;
+    }
+    .obsidian-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(74, 158, 255, 0.5);
     }
     .sidebar-graph {
       background: white;
@@ -511,7 +588,7 @@
 
         <div class="graph-container" id="mainGraph">
           <!-- 중심 노드 -->
-          <div class="node center" style="top: 180px; left: 45%;" data-link="../Test-Compensation-Vault/">
+          <div class="node center" style="top: 230px; left: 42%;" data-link="../Test-Compensation-Vault/">
             보상작용<br>연구 위키
           </div>
 
@@ -522,65 +599,104 @@
           <div class="node anatomy" style="top: 80px; left: 70%;" data-link="../Test-Compensation-Vault/02-Anatomy/TFL.md">
             TFL
           </div>
-          <div class="node anatomy" style="top: 320px; left: 15%;" data-link="../Test-Compensation-Vault/02-Anatomy/Hip-Joint.md">
+          <div class="node anatomy" style="top: 380px; left: 15%;" data-link="../Test-Compensation-Vault/02-Anatomy/Hip-Joint.md">
             Hip Joint
+          </div>
+          <div class="node anatomy" style="top: 420px; left: 75%;" data-link="../Test-Compensation-Vault/02-Anatomy/Quadratus-Lumborum.md">
+            Quadratus<br>Lumborum
+          </div>
+          <div class="node anatomy" style="top: 30px; left: 85%;" data-link="../Test-Compensation-Vault/02-Anatomy/IT-Band.md">
+            IT Band
+          </div>
+          <div class="node anatomy" style="top: 350px; left: 85%;" data-link="../Test-Compensation-Vault/02-Anatomy/Core-Muscles.md">
+            Core<br>Muscles
           </div>
 
           <!-- 패턴 노드들 (주황색) -->
-          <div class="node pattern" style="top: 30px; left: 45%;" data-link="../Test-Compensation-Vault/03-Compensation-Patterns/Hip-Drop-Pattern.md">
+          <div class="node pattern" style="top: 20px; left: 42%;" data-link="../Test-Compensation-Vault/03-Compensation-Patterns/Hip-Drop-Pattern.md">
             Hip Drop<br>Pattern
           </div>
-          <div class="node pattern" style="top: 120px; left: 10%;" data-link="../Test-Compensation-Vault/03-Compensation-Patterns/Trendelenburg-Sign.md">
+          <div class="node pattern" style="top: 120px; left: 8%;" data-link="../Test-Compensation-Vault/03-Compensation-Patterns/Trendelenburg-Sign.md">
             Trendelenburg<br>Sign
           </div>
-          <div class="node pattern" style="top: 280px; left: 75%;" data-link="../Test-Compensation-Vault/03-Compensation-Patterns/IT-Band-Syndrome.md">
+          <div class="node pattern" style="top: 280px; left: 78%;" data-link="../Test-Compensation-Vault/03-Compensation-Patterns/IT-Band-Syndrome.md">
             IT Band<br>Syndrome
+          </div>
+          <div class="node pattern" style="top: 460px; left: 42%;" data-link="../Test-Compensation-Vault/03-Compensation-Patterns/Lateral-Shift.md">
+            Lateral<br>Shift
+          </div>
+          <div class="node pattern" style="top: 180px; left: 85%;" data-link="../Test-Compensation-Vault/03-Compensation-Patterns/Knee-Valgus.md">
+            Knee<br>Valgus
           </div>
 
           <!-- 치료 노드들 (보라색) -->
-          <div class="node treatment" style="top: 340px; left: 45%;" data-link="../Test-Compensation-Vault/05-Interventions/Progressive-Loading.md">
+          <div class="node treatment" style="top: 380px; left: 42%;" data-link="../Test-Compensation-Vault/05-Interventions/Progressive-Loading.md">
             Progressive<br>Loading
           </div>
-          <div class="node treatment" style="top: 180px; left: 80%;" data-link="../Test-Compensation-Vault/05-Interventions/Manual-Therapy.md">
+          <div class="node treatment" style="top: 230px; left: 78%;" data-link="../Test-Compensation-Vault/05-Interventions/Manual-Therapy.md">
             Manual<br>Therapy
           </div>
           <div class="node treatment" style="top: 50px; left: 5%;" data-link="../Test-Compensation-Vault/05-Interventions/Exercise-Protocol.md">
             Exercise<br>Protocol
           </div>
+          <div class="node treatment" style="top: 320px; left: 8%;" data-link="../Test-Compensation-Vault/05-Interventions/Strengthening.md">
+            Strengthening<br>Protocol
+          </div>
+          <div class="node treatment" style="top: 420px; left: 25%;" data-link="../Test-Compensation-Vault/05-Interventions/Motor-Control.md">
+            Motor Control<br>Training
+          </div>
 
           <!-- 평가 노드들 (파란색) -->
-          <div class="node" style="top: 250px; left: 30%;" data-link="../Test-Compensation-Vault/04-Clinical-Tests/Trendelenburg-Test.md">
+          <div class="node" style="top: 280px; left: 25%;" data-link="../Test-Compensation-Vault/04-Clinical-Tests/Trendelenburg-Test.md">
             Trendelenburg<br>Test
           </div>
           <div class="node" style="top: 150px; left: 25%;" data-link="../Test-Compensation-Vault/04-Clinical-Tests/Single-Leg-Squat.md">
             Single Leg<br>Squat Test
           </div>
-          <div class="node" style="top: 100px; left: 60%;" data-link="../Test-Compensation-Vault/04-Clinical-Tests/5WHY-Analysis.md">
+          <div class="node" style="top: 100px; left: 55%;" data-link="../Test-Compensation-Vault/04-Clinical-Tests/5WHY-Analysis.md">
             5WHY<br>Analysis
+          </div>
+          <div class="node" style="top: 150px; left: 60%;" data-link="../Test-Compensation-Vault/04-Clinical-Tests/Gait-Analysis.md">
+            Gait<br>Analysis
+          </div>
+          <div class="node" style="top: 350px; left: 55%;" data-link="../Test-Compensation-Vault/04-Clinical-Tests/EMG-Analysis.md">
+            EMG<br>Analysis
+          </div>
+          <div class="node" style="top: 200px; left: 15%;" data-link="../Test-Compensation-Vault/04-Clinical-Tests/Movement-Screen.md">
+            Movement<br>Screen
           </div>
         </div>
 
         <div class="graph-legend">
           <div class="legend-item">
-            <div class="legend-color" style="background: #e74c3c;"></div>
+            <div class="legend-color" style="background: #ff6b6b; color: #ff6b6b;"></div>
             <span>중심 개념</span>
           </div>
           <div class="legend-item">
-            <div class="legend-color" style="background: #27ae60;"></div>
+            <div class="legend-color" style="background: #51cf66; color: #51cf66;"></div>
             <span>해부학 (근육/관절)</span>
           </div>
           <div class="legend-item">
-            <div class="legend-color" style="background: #f39c12;"></div>
+            <div class="legend-color" style="background: #ffd43b; color: #ffd43b;"></div>
             <span>보상 패턴</span>
           </div>
           <div class="legend-item">
-            <div class="legend-color" style="background: #36c;"></div>
+            <div class="legend-color" style="background: #4a9eff; color: #4a9eff;"></div>
             <span>임상 평가</span>
           </div>
           <div class="legend-item">
-            <div class="legend-color" style="background: #9b59b6;"></div>
+            <div class="legend-color" style="background: #da77f2; color: #da77f2;"></div>
             <span>치료/중재</span>
           </div>
+        </div>
+
+        <div class="graph-controls">
+          <a href="./graph-viewer.html" class="obsidian-button">
+            🌐 전체화면 그래프 뷰어 열기
+          </a>
+          <p style="color: #999; font-size: 0.8rem; margin-top: 0.5rem;">
+            실제 옵시디언과 같은 인터랙티브 그래프 경험을 위해 전용 뷰어를 사용하세요
+          </p>
         </div>
       </div>
 
