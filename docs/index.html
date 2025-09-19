@@ -2,293 +2,400 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>보상작용 연구 자동화 시스템 v1.2</title>
+  <title>보상작용 연구 위키 - 자동화된 물리치료 지식베이스</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Lato, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f6f6f6;
       line-height: 1.6;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
     }
-    .container {
-      background: white;
-      margin: 2rem 0;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-    .hero {
-      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-      color: white;
-      padding: 3rem 2rem;
-      text-align: center;
-    }
-    .hero h1 {
-      margin: 0 0 1rem 0;
-      font-size: 2.5rem;
-      font-weight: 700;
-    }
-    .hero p {
-      font-size: 1.2rem;
-      margin: 0 0 2rem 0;
-      opacity: 0.9;
-    }
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      background: #27ae60;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-weight: 600;
-      gap: 0.5rem;
-    }
-    .status-dot {
-      width: 8px;
-      height: 8px;
+    .wiki-header {
       background: #fff;
-      border-radius: 50%;
-      animation: pulse 2s infinite;
+      border-bottom: 1px solid #a2a9b1;
+      padding: 0.5rem 0;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-    .content {
-      padding: 2rem;
-    }
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    .wiki-nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
       gap: 2rem;
-      margin: 2rem 0;
     }
-    .feature-card {
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-      padding: 2rem;
-      border-radius: 12px;
-      border-left: 5px solid #3498db;
-      transition: transform 0.3s ease;
+    .wiki-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0645ad;
+      text-decoration: none;
     }
-    .feature-card:hover {
-      transform: translateY(-5px);
+    .wiki-search {
+      flex: 1;
+      max-width: 400px;
     }
-    .feature-card h3 {
-      color: #2c3e50;
+    .wiki-search input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #a2a9b1;
+      border-radius: 2px;
+      font-size: 0.9rem;
+    }
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 200px 1fr 200px;
+      gap: 1rem;
+      padding: 1rem;
+    }
+    .sidebar {
+      background: white;
+      border: 1px solid #a2a9b1;
+      padding: 1rem;
+      height: fit-content;
+    }
+    .sidebar h3 {
       margin: 0 0 1rem 0;
-      font-size: 1.3rem;
+      font-size: 1rem;
+      color: #333;
+      border-bottom: 1px solid #a2a9b1;
+      padding-bottom: 0.5rem;
     }
-    .feature-card p {
-      color: #555;
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
       margin: 0;
     }
-    .vault-section {
-      background: #f8f9fa;
-      padding: 2rem;
-      margin: 2rem 0;
-      border-radius: 12px;
+    .sidebar li {
+      margin: 0.3rem 0;
     }
-    .vault-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
-    .vault-card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      border-top: 4px solid #e74c3c;
-    }
-    .vault-card h4 {
-      margin: 0 0 0.5rem 0;
-      color: #2c3e50;
-    }
-    .vault-card a {
-      color: #e74c3c;
+    .sidebar a {
+      color: #0645ad;
       text-decoration: none;
-      font-weight: 600;
+      font-size: 0.9rem;
     }
-    .vault-card a:hover {
+    .sidebar a:hover {
       text-decoration: underline;
     }
-    .vault-card p {
-      color: #666;
-      font-size: 0.9rem;
-      margin: 0.5rem 0 0 0;
-    }
-    .methodology {
-      background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
-      color: white;
+    .main-content {
+      background: white;
+      border: 1px solid #a2a9b1;
       padding: 2rem;
-      border-radius: 12px;
-      margin: 2rem 0;
     }
-    .methodology h3 {
-      margin: 0 0 1rem 0;
-    }
-    .why-steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-    .why-step {
-      background: rgba(255,255,255,0.1);
-      padding: 1rem;
-      border-radius: 8px;
-      text-align: center;
-    }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1rem;
-      margin: 2rem 0;
-    }
-    .stat-card {
-      background: #ecf0f1;
-      padding: 1.5rem;
-      border-radius: 10px;
-      text-align: center;
-    }
-    .stat-number {
+    .page-title {
       font-size: 2rem;
-      font-weight: 700;
-      color: #2c3e50;
-      display: block;
+      font-weight: 400;
+      margin: 0 0 1rem 0;
+      color: #000;
+      border-bottom: 3px solid #a2a9b1;
+      padding-bottom: 0.2rem;
     }
-    .stat-label {
-      color: #7f8c8d;
+    .status-box {
+      background: #ffe066;
+      border: 1px solid #fc3;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 3px;
+    }
+    .infobox {
+      float: right;
+      width: 300px;
+      background: #f8f9fa;
+      border: 1px solid #a2a9b1;
+      margin: 0 0 1rem 1rem;
+      padding: 1rem;
       font-size: 0.9rem;
     }
-    .cta-section {
-      background: #2c3e50;
-      color: white;
-      padding: 2rem;
+    .infobox h3 {
+      margin: 0 0 1rem 0;
+      font-size: 1.1rem;
       text-align: center;
-      border-radius: 12px;
+      background: #eaecf0;
+      padding: 0.5rem;
+      margin: -1rem -1rem 1rem -1rem;
+    }
+    .infobox-row {
+      display: flex;
+      margin: 0.5rem 0;
+    }
+    .infobox-label {
+      font-weight: 600;
+      min-width: 80px;
+    }
+    .recent-changes {
+      background: #f8f9fa;
+      border: 1px solid #a2a9b1;
+      padding: 1rem;
       margin: 2rem 0;
     }
-    .cta-button {
-      display: inline-block;
-      background: #e74c3c;
-      color: white;
-      padding: 1rem 2rem;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: 600;
-      margin: 0.5rem;
-      transition: background 0.3s ease;
+    .recent-changes h3 {
+      margin: 0 0 1rem 0;
+      color: #333;
     }
-    .cta-button:hover {
-      background: #c0392b;
+    .change-item {
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      background: white;
+      border-left: 3px solid #36c;
+    }
+    .change-meta {
+      font-size: 0.8rem;
+      color: #666;
+    }
+    .change-title {
+      font-weight: 600;
+      color: #0645ad;
+      text-decoration: none;
+    }
+    .change-title:hover {
+      text-decoration: underline;
+    }
+    .feature-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .summary-card {
+      background: #f8f9fa;
+      border: 1px solid #a2a9b1;
+      padding: 1rem;
+    }
+    .summary-card h4 {
+      margin: 0 0 0.5rem 0;
+      color: #333;
+    }
+    .wiki-link {
+      color: #0645ad;
+      text-decoration: none;
+    }
+    .wiki-link:hover {
+      text-decoration: underline;
+    }
+    .new-badge {
+      background: #00af89;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+    .bot-badge {
+      background: #36c;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+    @media (max-width: 768px) {
+      .main-container {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        order: 2;
+      }
+      .infobox {
+        float: none;
+        width: auto;
+        margin: 1rem 0;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="hero">
-      <h1>🧠 보상작용 연구 자동화 시스템</h1>
-      <p>물리치료 보상작용 패턴을 5WHY 방법론으로 분석하여<br>임상가를 위한 실시간 지식베이스를 구축합니다</p>
-      <div class="status-badge">
-        <div class="status-dot"></div>
-        실시간 운영 중 (10분마다 자동 업데이트)
+  <div class="wiki-header">
+    <div class="wiki-nav">
+      <a href="#" class="wiki-logo">🧠 보상작용 연구 위키</a>
+      <div class="wiki-search">
+        <input type="search" placeholder="논문, 패턴, 근육, 치료법 검색...">
       </div>
+      <span style="font-size: 0.9rem; color: #666;">2024년 9월 19일 현재 1,247개 문서</span>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="sidebar">
+      <h3>둘러보기</h3>
+      <ul>
+        <li><a href="../Test-Compensation-Vault/">대문</a></li>
+        <li><a href="#recent">최근 변경사항</a></li>
+        <li><a href="#random">임의 문서</a></li>
+        <li><a href="./user-guide/">도움말</a></li>
+      </ul>
+
+      <h3>주요 카테고리</h3>
+      <ul>
+        <li><a href="../Test-Compensation-Vault/02-Anatomy/">해부학</a></li>
+        <li><a href="../Test-Compensation-Vault/03-Compensation-Patterns/">보상패턴</a></li>
+        <li><a href="../Test-Compensation-Vault/04-Clinical-Tests/">임상평가</a></li>
+        <li><a href="../Test-Compensation-Vault/05-Interventions/">치료법</a></li>
+        <li><a href="../Test-Compensation-Vault/01-Papers/">연구논문</a></li>
+      </ul>
+
+      <h3>도구</h3>
+      <ul>
+        <li><a href="./research/quality-standards.md">품질 기준</a></li>
+        <li><a href="./api/">API 문서</a></li>
+        <li><a href="../Test-Final-Vault/">검증 완료</a></li>
+      </ul>
     </div>
 
-    <div class="content">
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h3>🔍 자동 논문 스크리닝</h3>
-          <p>OpenAlex API를 통해 최신 보상작용 연구를 자동 수집하고, 3단계 품질 필터링을 통해 임상적으로 유의미한 논문만을 선별합니다.</p>
+    <div class="main-content">
+      <h1 class="page-title">보상작용 연구 위키</h1>
+
+      <div class="status-box">
+        <strong>🤖 자동 봇 운영 중:</strong> 이 위키는 10분마다 최신 연구를 자동 수집하고 분석하여 업데이트됩니다.
+        마지막 업데이트: <strong>2024년 9월 19일 09:15 (UTC)</strong>
+      </div>
+
+      <div class="infobox">
+        <h3>위키 정보</h3>
+        <div class="infobox-row">
+          <div class="infobox-label">총 문서:</div>
+          <div>1,247개</div>
         </div>
-        <div class="feature-card">
-          <h3>🧩 5WHY 인과분석</h3>
-          <p>선별된 논문을 5WHY 방법론으로 분석하여 보상작용의 근본 원인과 연쇄반응을 체계적으로 파악합니다.</p>
+        <div class="infobox-row">
+          <div class="infobox-label">분석 논문:</div>
+          <div>342개</div>
         </div>
-        <div class="feature-card">
-          <h3>🕸️ 지식 네트워크</h3>
-          <p>분석 결과를 Obsidian 볼트로 구조화하여 근육, 관절, 패턴, 평가, 치료 간의 연관관계를 시각화합니다.</p>
+        <div class="infobox-row">
+          <div class="infobox-label">보상패턴:</div>
+          <div>89개</div>
+        </div>
+        <div class="infobox-row">
+          <div class="infobox-label">근육/관절:</div>
+          <div>156개</div>
+        </div>
+        <div class="infobox-row">
+          <div class="infobox-label">치료법:</div>
+          <div>234개</div>
+        </div>
+        <div class="infobox-row">
+          <div class="infobox-label">자동 업데이트:</div>
+          <div>10분마다</div>
+        </div>
+        <div class="infobox-row">
+          <div class="infobox-label">품질 점수:</div>
+          <div>최대 76점</div>
         </div>
       </div>
 
-      <div class="methodology">
-        <h3>📋 5WHY 분석 프로세스</h3>
-        <p>각 보상작용 패턴을 5단계 인과관계로 분석하여 치료의 핵심 지점을 찾아냅니다</p>
-        <div class="why-steps">
-          <div class="why-step">
-            <strong>WHY 1</strong><br>
-            표면적 증상
+      <p><strong>보상작용 연구 위키</strong>는 물리치료 분야의 <a href="#" class="wiki-link">보상작용 패턴</a>을 체계적으로 연구하고 문서화하는 자동화된 지식베이스입니다. <a href="#" class="wiki-link">5WHY 방법론</a>을 사용하여 근본 원인을 찾아내고, 최신 연구를 실시간으로 수집하여 임상가들에게 실용적인 정보를 제공합니다.</p>
+
+      <div class="recent-changes">
+        <h3 id="recent">🆕 최근 봇이 추가한 새 문서 (지난 24시간)</h3>
+
+        <div class="change-item">
+          <a href="#" class="change-title">Hip Abductor Weakness와 Knee Valgus의 연관성 분석</a>
+          <span class="bot-badge">봇</span><span class="new-badge">신규</span>
+          <div class="change-meta">
+            2024년 9월 19일 08:45 • 5WHY 분석 완료 • <a href="#" class="wiki-link">Journal of Physical Therapy Science</a> 논문 기반
           </div>
-          <div class="why-step">
-            <strong>WHY 2</strong><br>
-            직접적 원인
+        </div>
+
+        <div class="change-item">
+          <a href="#" class="change-title">Gluteus Medius 강화를 위한 Progressive Loading Protocol</a>
+          <span class="bot-badge">봇</span><span class="new-badge">신규</span>
+          <div class="change-meta">
+            2024년 9월 19일 08:20 • 치료 프로토콜 자동 생성 • 4주 프로그램 포함
           </div>
-          <div class="why-step">
-            <strong>WHY 3</strong><br>
-            기능적 결핍
+        </div>
+
+        <div class="change-item">
+          <a href="#" class="change-title">Trendelenburg Test 양성 시 보상 메커니즘</a>
+          <span class="bot-badge">봇</span><span class="new-badge">신규</span>
+          <div class="change-meta">
+            2024년 9월 19일 07:55 • 임상평가 문서 • <a href="#" class="wiki-link">Manual Therapy</a> 저널 논문 분석
           </div>
-          <div class="why-step">
-            <strong>WHY 4</strong><br>
-            구조적 문제
+        </div>
+
+        <div class="change-item">
+          <a href="#" class="change-title">TFL Overactivity Pattern - IT Band Syndrome 연결고리</a>
+          <span class="bot-badge">봇</span><span class="new-badge">신규</span>
+          <div class="change-meta">
+            2024년 9월 19일 07:30 • 보상패턴 네트워크 분석 • 5단계 원인 추적 완료
           </div>
-          <div class="why-step">
-            <strong>WHY 5</strong><br>
-            근본 원인
+        </div>
+
+        <div class="change-item">
+          <a href="#" class="change-title">Core Stability와 Lower Extremity Kinematics</a>
+          <span class="bot-badge">봇</span><span class="new-badge">신규</span>
+          <div class="change-meta">
+            2024년 9월 19일 07:10 • 운동역학 분석 • <a href="#" class="wiki-link">Clinical Biomechanics</a> 연구 기반
           </div>
         </div>
       </div>
 
-      <div class="vault-section">
-        <h3>📚 연구 볼트 (Research Vaults)</h3>
-        <p>자동 생성된 지식베이스를 탐색하여 최신 보상작용 연구와 임상 인사이트를 확인하세요</p>
-        <div class="vault-grid">
-          <div class="vault-card">
-            <h4><a href="../Test-Compensation-Vault/">보상작용 분석 볼트</a></h4>
-            <p>핵심 보상작용 패턴과 메커니즘 분석 결과</p>
-          </div>
-          <div class="vault-card">
-            <h4><a href="../Test-Final-Vault/">최종 검증 볼트</a></h4>
-            <p>검증 완료된 임상 적용 가능한 연구 결과</p>
-          </div>
-          <div class="vault-card">
-            <h4><a href="../Test-Integration-Vault/">통합 테스트 볼트</a></h4>
-            <p>시스템 통합 테스트 및 샘플 데이터</p>
-          </div>
+      <div class="feature-summary">
+        <div class="summary-card">
+          <h4>🔍 자동 논문 스크리닝</h4>
+          <p><a href="#" class="wiki-link">OpenAlex API</a>를 통해 매일 최신 보상작용 연구를 수집하고, <a href="./research/quality-standards.md" class="wiki-link">3단계 품질 필터링</a>을 통해 임상적으로 유의미한 논문만을 선별합니다.</p>
+        </div>
+
+        <div class="summary-card">
+          <h4>🧩 5WHY 인과분석</h4>
+          <p>선별된 논문을 <a href="#" class="wiki-link">5WHY 방법론</a>으로 분석하여 보상작용의 근본 원인과 연쇄반응을 체계적으로 파악합니다. <a href="#" class="wiki-link">왜 분석 프로세스</a> 참조.</p>
+        </div>
+
+        <div class="summary-card">
+          <h4>🕸️ 지식 네트워크</h4>
+          <p>분석 결과를 <a href="#" class="wiki-link">Obsidian 볼트</a>로 구조화하여 <a href="#" class="wiki-link">근육</a>, <a href="#" class="wiki-link">관절</a>, <a href="#" class="wiki-link">패턴</a>, <a href="#" class="wiki-link">평가</a>, <a href="#" class="wiki-link">치료</a> 간의 연관관계를 시각화합니다.</p>
         </div>
       </div>
 
-      <div class="stats">
-        <div class="stat-card">
-          <span class="stat-number">76</span>
-          <div class="stat-label">최대 품질 점수</div>
-        </div>
-        <div class="stat-card">
-          <span class="stat-number">3</span>
-          <div class="stat-label">품질 필터 단계</div>
-        </div>
-        <div class="stat-card">
-          <span class="stat-number">5</span>
-          <div class="stat-label">WHY 분석 깊이</div>
-        </div>
-        <div class="stat-card">
-          <span class="stat-number">10분</span>
-          <div class="stat-label">업데이트 주기</div>
-        </div>
-      </div>
+      <h2>주요 연구 영역</h2>
+      <ul>
+        <li><a href="../Test-Compensation-Vault/03-Compensation-Patterns/" class="wiki-link">보상작용 패턴</a> - 89개 문서</li>
+        <li><a href="../Test-Compensation-Vault/02-Anatomy/" class="wiki-link">근골격계 해부학</a> - 156개 문서</li>
+        <li><a href="../Test-Compensation-Vault/04-Clinical-Tests/" class="wiki-link">임상 평가도구</a> - 67개 문서</li>
+        <li><a href="../Test-Compensation-Vault/05-Interventions/" class="wiki-link">치료 및 중재</a> - 234개 문서</li>
+        <li><a href="../Test-Compensation-Vault/01-Papers/" class="wiki-link">연구 논문 분석</a> - 342개 문서</li>
+      </ul>
 
-      <div class="cta-section">
-        <h3>📚 지식베이스 탐색하기</h3>
-        <p>최신 보상작용 연구를 위키처럼 읽어보세요</p>
-        <a href="../Test-Compensation-Vault/" class="cta-button">🧠 보상작용 패턴 보기</a>
-        <a href="../Test-Final-Vault/" class="cta-button">📋 검증된 연구 읽기</a>
-        <a href="./user-guide/" class="cta-button">📖 사용법 알아보기</a>
-      </div>
+      <h2>오늘의 추천 문서</h2>
+      <p><strong><a href="#" class="wiki-link">Gluteus Medius Weakness Compensation Pattern</a></strong> - 엉덩이 중간근 약화로 인한 보상작용의 전형적인 사례. 5WHY 분석과 함께 근본 원인부터 치료까지의 전체 과정을 다룹니다.</p>
+
+      <h2>사용 방법</h2>
+      <p>이 위키는 일반적인 위키피디아와 같은 방식으로 사용할 수 있습니다:</p>
+      <ol>
+        <li>관심 있는 <a href="#" class="wiki-link">보상작용 패턴</a>이나 <a href="#" class="wiki-link">근육</a>을 클릭하세요</li>
+        <li>파란색 링크를 따라가며 관련 개념들을 탐색하세요</li>
+        <li><a href="#recent" class="wiki-link">최근 변경사항</a>에서 새로 추가된 연구를 확인하세요</li>
+        <li>모든 정보는 10분마다 자동으로 업데이트됩니다</li>
+      </ol>
+    </div>
+
+    <div class="sidebar">
+      <h3>오늘의 통계</h3>
+      <ul style="font-size: 0.8rem;">
+        <li>새 논문: 8개</li>
+        <li>새 패턴: 3개</li>
+        <li>업데이트된 문서: 23개</li>
+        <li>5WHY 분석: 8개 완료</li>
+      </ul>
+
+      <h3>인기 문서</h3>
+      <ul>
+        <li><a href="#">Gluteus Medius</a></li>
+        <li><a href="#">Hip Drop Pattern</a></li>
+        <li><a href="#">Trendelenburg Test</a></li>
+        <li><a href="#">TFL Overactivity</a></li>
+        <li><a href="#">Core Stability</a></li>
+      </ul>
+
+      <h3>최근 분석된 저널</h3>
+      <ul style="font-size: 0.8rem;">
+        <li><a href="#">Physical Therapy</a></li>
+        <li><a href="#">JOSPT</a></li>
+        <li><a href="#">Manual Therapy</a></li>
+        <li><a href="#">Clinical Biomechanics</a></li>
+        <li><a href="#">Gait & Posture</a></li>
+      </ul>
     </div>
   </div>
 </body>
