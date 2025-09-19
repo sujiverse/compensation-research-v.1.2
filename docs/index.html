@@ -192,6 +192,148 @@
       font-weight: 600;
       margin-left: 0.5rem;
     }
+    .knowledge-graph {
+      background: #f8f9fa;
+      border: 1px solid #a2a9b1;
+      padding: 1rem;
+      margin: 2rem 0;
+      border-radius: 3px;
+    }
+    .knowledge-graph h3 {
+      margin: 0 0 1rem 0;
+      color: #333;
+    }
+    .graph-container {
+      width: 100%;
+      height: 400px;
+      position: relative;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .node {
+      position: absolute;
+      background: #36c;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      min-width: 80px;
+      border: 2px solid #36c;
+    }
+    .node:hover {
+      background: #0645ad;
+      border-color: #0645ad;
+      transform: scale(1.1);
+      z-index: 10;
+    }
+    .node.center {
+      background: #e74c3c;
+      border-color: #e74c3c;
+      font-size: 0.9rem;
+      padding: 0.7rem 1.2rem;
+      font-weight: 700;
+    }
+    .node.center:hover {
+      background: #c0392b;
+      border-color: #c0392b;
+    }
+    .node.anatomy {
+      background: #27ae60;
+      border-color: #27ae60;
+    }
+    .node.anatomy:hover {
+      background: #219a52;
+      border-color: #219a52;
+    }
+    .node.pattern {
+      background: #f39c12;
+      border-color: #f39c12;
+    }
+    .node.pattern:hover {
+      background: #e67e22;
+      border-color: #e67e22;
+    }
+    .node.treatment {
+      background: #9b59b6;
+      border-color: #9b59b6;
+    }
+    .node.treatment:hover {
+      background: #8e44ad;
+      border-color: #8e44ad;
+    }
+    .connection {
+      position: absolute;
+      background: #bbb;
+      height: 2px;
+      transform-origin: left center;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .graph-legend {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .sidebar-graph {
+      background: white;
+      border: 1px solid #a2a9b1;
+      padding: 1rem;
+      margin-top: 1rem;
+      height: fit-content;
+    }
+    .sidebar-graph h3 {
+      margin: 0 0 1rem 0;
+      font-size: 1rem;
+      color: #333;
+      border-bottom: 1px solid #a2a9b1;
+      padding-bottom: 0.5rem;
+    }
+    .mini-graph {
+      width: 100%;
+      height: 200px;
+      position: relative;
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .mini-node {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #36c;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .mini-node:hover {
+      background: #e74c3c;
+      transform: scale(1.5);
+    }
+    .mini-connection {
+      position: absolute;
+      background: #ccc;
+      height: 1px;
+      pointer-events: none;
+    }
     @media (max-width: 768px) {
       .main-container {
         grid-template-columns: 1fr;
@@ -203,6 +345,9 @@
         float: none;
         width: auto;
         margin: 1rem 0;
+      }
+      .graph-legend {
+        justify-content: center;
       }
     }
   </style>
@@ -360,11 +505,91 @@
       <h2>오늘의 추천 문서</h2>
       <p><strong><a href="#" class="wiki-link">Gluteus Medius Weakness Compensation Pattern</a></strong> - 엉덩이 중간근 약화로 인한 보상작용의 전형적인 사례. 5WHY 분석과 함께 근본 원인부터 치료까지의 전체 과정을 다룹니다.</p>
 
+      <div class="knowledge-graph">
+        <h3 id="knowledge-network">🕸️ 지식 네트워크 시각화</h3>
+        <p>보상작용 연구 개념들 간의 연결관계를 옵시디언 스타일로 시각화했습니다. 노드를 클릭하면 해당 문서로 이동합니다.</p>
+
+        <div class="graph-container" id="mainGraph">
+          <!-- 중심 노드 -->
+          <div class="node center" style="top: 180px; left: 45%;" data-link="../Test-Compensation-Vault/">
+            보상작용<br>연구 위키
+          </div>
+
+          <!-- 해부학 노드들 (녹색) -->
+          <div class="node anatomy" style="top: 50px; left: 20%;" data-link="../Test-Compensation-Vault/02-Anatomy/Gluteus-Medius.md">
+            Gluteus<br>Medius
+          </div>
+          <div class="node anatomy" style="top: 80px; left: 70%;" data-link="../Test-Compensation-Vault/02-Anatomy/TFL.md">
+            TFL
+          </div>
+          <div class="node anatomy" style="top: 320px; left: 15%;" data-link="../Test-Compensation-Vault/02-Anatomy/Hip-Joint.md">
+            Hip Joint
+          </div>
+
+          <!-- 패턴 노드들 (주황색) -->
+          <div class="node pattern" style="top: 30px; left: 45%;" data-link="../Test-Compensation-Vault/03-Compensation-Patterns/Hip-Drop-Pattern.md">
+            Hip Drop<br>Pattern
+          </div>
+          <div class="node pattern" style="top: 120px; left: 10%;" data-link="../Test-Compensation-Vault/03-Compensation-Patterns/Trendelenburg-Sign.md">
+            Trendelenburg<br>Sign
+          </div>
+          <div class="node pattern" style="top: 280px; left: 75%;" data-link="../Test-Compensation-Vault/03-Compensation-Patterns/IT-Band-Syndrome.md">
+            IT Band<br>Syndrome
+          </div>
+
+          <!-- 치료 노드들 (보라색) -->
+          <div class="node treatment" style="top: 340px; left: 45%;" data-link="../Test-Compensation-Vault/05-Interventions/Progressive-Loading.md">
+            Progressive<br>Loading
+          </div>
+          <div class="node treatment" style="top: 180px; left: 80%;" data-link="../Test-Compensation-Vault/05-Interventions/Manual-Therapy.md">
+            Manual<br>Therapy
+          </div>
+          <div class="node treatment" style="top: 50px; left: 5%;" data-link="../Test-Compensation-Vault/05-Interventions/Exercise-Protocol.md">
+            Exercise<br>Protocol
+          </div>
+
+          <!-- 평가 노드들 (파란색) -->
+          <div class="node" style="top: 250px; left: 30%;" data-link="../Test-Compensation-Vault/04-Clinical-Tests/Trendelenburg-Test.md">
+            Trendelenburg<br>Test
+          </div>
+          <div class="node" style="top: 150px; left: 25%;" data-link="../Test-Compensation-Vault/04-Clinical-Tests/Single-Leg-Squat.md">
+            Single Leg<br>Squat Test
+          </div>
+          <div class="node" style="top: 100px; left: 60%;" data-link="../Test-Compensation-Vault/04-Clinical-Tests/5WHY-Analysis.md">
+            5WHY<br>Analysis
+          </div>
+        </div>
+
+        <div class="graph-legend">
+          <div class="legend-item">
+            <div class="legend-color" style="background: #e74c3c;"></div>
+            <span>중심 개념</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #27ae60;"></div>
+            <span>해부학 (근육/관절)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #f39c12;"></div>
+            <span>보상 패턴</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #36c;"></div>
+            <span>임상 평가</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #9b59b6;"></div>
+            <span>치료/중재</span>
+          </div>
+        </div>
+      </div>
+
       <h2>사용 방법</h2>
       <p>이 위키는 일반적인 위키피디아와 같은 방식으로 사용할 수 있습니다:</p>
       <ol>
         <li>관심 있는 <a href="#" class="wiki-link">보상작용 패턴</a>이나 <a href="#" class="wiki-link">근육</a>을 클릭하세요</li>
         <li>파란색 링크를 따라가며 관련 개념들을 탐색하세요</li>
+        <li><a href="#knowledge-network" class="wiki-link">지식 네트워크</a>에서 개념 간 관계를 시각적으로 탐색하세요</li>
         <li><a href="#recent" class="wiki-link">최근 변경사항</a>에서 새로 추가된 연구를 확인하세요</li>
         <li>모든 정보는 10분마다 자동으로 업데이트됩니다</li>
       </ol>
@@ -397,6 +622,152 @@
         <li><a href="#">Gait & Posture</a></li>
       </ul>
     </div>
+
+    <div class="sidebar-graph">
+      <h3>🌐 연결 네트워크</h3>
+      <div class="mini-graph" id="miniGraph">
+        <!-- 미니 노드들 -->
+        <div class="mini-node" style="top: 95px; left: 85px;" title="보상작용 연구 위키"></div>
+        <div class="mini-node" style="top: 40px; left: 60px;" title="Gluteus Medius"></div>
+        <div class="mini-node" style="top: 150px; left: 40px;" title="Hip Drop Pattern"></div>
+        <div class="mini-node" style="top: 60px; left: 120px;" title="TFL"></div>
+        <div class="mini-node" style="top: 170px; left: 110px;" title="IT Band Syndrome"></div>
+        <div class="mini-node" style="top: 30px; left: 30px;" title="Exercise Protocol"></div>
+        <div class="mini-node" style="top: 120px; left: 150px;" title="Manual Therapy"></div>
+        <div class="mini-node" style="top: 80px; left: 15px;" title="Trendelenburg"></div>
+        <div class="mini-node" style="top: 180px; left: 70px;" title="Progressive Loading"></div>
+        <div class="mini-node" style="top: 15px; left: 90px;" title="5WHY Analysis"></div>
+      </div>
+      <p style="font-size: 0.7rem; color: #666; margin-top: 0.5rem;">
+        전체 네트워크의 축소된 보기입니다. 점을 마우스오버하면 개념 이름을 볼 수 있습니다.
+      </p>
+    </div>
   </div>
+
+  <script>
+    // 노드 클릭 이벤트 처리
+    document.addEventListener('DOMContentLoaded', function() {
+      // 메인 그래프 노드 클릭 이벤트
+      const nodes = document.querySelectorAll('.node[data-link]');
+      nodes.forEach(node => {
+        node.addEventListener('click', function() {
+          const link = this.getAttribute('data-link');
+          if (link) {
+            window.location.href = link;
+          }
+        });
+      });
+
+      // 연결선 그리기 함수
+      function drawConnections() {
+        const container = document.getElementById('mainGraph');
+        const centerNode = container.querySelector('.center');
+        const allNodes = container.querySelectorAll('.node:not(.center)');
+
+        // 기존 연결선 제거
+        container.querySelectorAll('.connection').forEach(conn => conn.remove());
+
+        // 중심 노드의 위치 계산
+        const centerRect = centerNode.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        const centerX = centerRect.left - containerRect.left + centerRect.width / 2;
+        const centerY = centerRect.top - containerRect.top + centerRect.height / 2;
+
+        // 각 노드와 중심 노드를 연결
+        allNodes.forEach(node => {
+          const nodeRect = node.getBoundingClientRect();
+          const nodeX = nodeRect.left - containerRect.left + nodeRect.width / 2;
+          const nodeY = nodeRect.top - containerRect.top + nodeRect.height / 2;
+
+          // 연결선 생성
+          const connection = document.createElement('div');
+          connection.className = 'connection';
+
+          // 거리와 각도 계산
+          const deltaX = nodeX - centerX;
+          const deltaY = nodeY - centerY;
+          const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+          const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+
+          // 연결선 스타일 설정
+          connection.style.left = centerX + 'px';
+          connection.style.top = centerY + 'px';
+          connection.style.width = distance + 'px';
+          connection.style.transform = `rotate(${angle}deg)`;
+
+          container.appendChild(connection);
+        });
+      }
+
+      // 미니 그래프 연결선 그리기
+      function drawMiniConnections() {
+        const miniContainer = document.getElementById('miniGraph');
+        const miniNodes = miniContainer.querySelectorAll('.mini-node');
+
+        // 기존 연결선 제거
+        miniContainer.querySelectorAll('.mini-connection').forEach(conn => conn.remove());
+
+        // 중심 노드 (첫 번째 노드)
+        const centerNode = miniNodes[0];
+        const centerRect = centerNode.getBoundingClientRect();
+        const containerRect = miniContainer.getBoundingClientRect();
+        const centerX = centerRect.left - containerRect.left + 4; // 노드 중심
+        const centerY = centerRect.top - containerRect.top + 4;
+
+        // 몇 개의 주요 연결만 표시
+        const connectionsToShow = [1, 2, 3, 4, 8]; // 선택된 노드들
+
+        connectionsToShow.forEach(index => {
+          if (miniNodes[index]) {
+            const nodeRect = miniNodes[index].getBoundingClientRect();
+            const nodeX = nodeRect.left - containerRect.left + 4;
+            const nodeY = nodeRect.top - containerRect.top + 4;
+
+            const connection = document.createElement('div');
+            connection.className = 'mini-connection';
+
+            const deltaX = nodeX - centerX;
+            const deltaY = nodeY - centerY;
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+
+            connection.style.left = centerX + 'px';
+            connection.style.top = centerY + 'px';
+            connection.style.width = distance + 'px';
+            connection.style.transform = `rotate(${angle}deg)`;
+            connection.style.transformOrigin = 'left center';
+
+            miniContainer.appendChild(connection);
+          }
+        });
+      }
+
+      // 초기 연결선 그리기
+      setTimeout(() => {
+        drawConnections();
+        drawMiniConnections();
+      }, 100);
+
+      // 창 크기 변경 시 연결선 다시 그리기
+      window.addEventListener('resize', () => {
+        setTimeout(() => {
+          drawConnections();
+          drawMiniConnections();
+        }, 100);
+      });
+
+      // 노드 호버 효과
+      const allNodes = document.querySelectorAll('.node, .mini-node');
+      allNodes.forEach(node => {
+        node.addEventListener('mouseenter', function() {
+          this.style.zIndex = '100';
+        });
+
+        node.addEventListener('mouseleave', function() {
+          this.style.zIndex = '';
+        });
+      });
+    });
+  </script>
 </body>
 </html>
