@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python test:*)",
+      "Bash(py --version)",
+      "Bash(where python)",
+      "Bash(python.exe:*)",
+      "Bash(gh workflow:*)",
+      "WebFetch(domain:sujiverse.github.io)",
+      "Bash(where python3)",
+      "Bash(python:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

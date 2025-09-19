@@ -1,0 +1,14 @@
+# 🔬 Compensation Research System - Optimized Dependencies
+# Only packages actually used in the codebase
+
+# Core API functionality
+requests>=2.31.0,<3.0.0
+
+# Task scheduling
+schedule>=1.2.2,<2.0.0
+
+# System monitoring (health_check.py)
+psutil>=5.9.0,<6.0.0
+
+# Security features (security_manager.py)
+cryptography>=41.0.0,<42.0.0
