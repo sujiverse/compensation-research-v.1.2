@@ -63,8 +63,9 @@ jobs:
 
     - name: Upload Obsidian vault as artifact
       uses: actions/upload-artifact@v4
+      if: false  # Disable until vault is properly created
       with:
         name: compensation-vault-$(date +%Y%m%d-%H%M)
-        path: Compensation-Research-Vault/
+        path: Test-Integration-Vault/
         retention-days: 30
         include-hidden-files: true
